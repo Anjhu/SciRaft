@@ -17,13 +17,223 @@ section {
 }
 
 .section-title {
-    font-size: 2.2rem;
+    font-weight: normal;
+    font-size: 3rem;
     color: #6af3df;
-    margin-bottom: 40px;
+    margin-bottom: 80px;
 }
 
 
-
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        /* First Division - Comet Background */
+        .comet-background {
+            position: relative;
+            /*height: 600px; */
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0e2a 0%, #1a1f40 100%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        
+        /* Comet container - ABSOLUTE to comet division only */
+        .comet-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        /* Stars background - ABSOLUTE to comet division only */
+        .comet-stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Content overlay inside comet division */
+        .comet-content {
+            position: relative;
+            z-index: 3;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .comet-text {
+            max-width: 800px;
+            padding: 40px;
+            background-color: rgba(10, 14, 42, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .comet-text h2 {
+            color: #87ceeb;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        
+        .comet-text p {
+            color: #e6f7ff;
+            font-size: 1.3rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Comet styles - ABSOLUTE to comet container */
+        .comet {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 
+                0 0 12px 3px rgba(255, 255, 255, 0.7),
+                0 0 20px 6px rgba(135, 206, 235, 0.5);
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        
+        .comet::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            animation: pulse 2.5s infinite;
+        }
+        
+        .comet::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -30px;
+            width: 35px;
+            height: 1.2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.6) 40%,
+                rgba(135, 206, 235, 0.3) 80%,
+                transparent 100%);
+            transform: translateY(-50%);
+            transform-origin: left center;
+        }
+        
+        @keyframes pulse {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 0.4;
+            }
+            50% {
+                width: 25px;
+                height: 25px;
+                opacity: 0.1;
+            }
+            100% {
+                width: 0;
+                height: 0;
+                opacity: 0;
+            }
+        }
+        
+        /* Stars styling - ABSOLUTE to comet container */
+        .star {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: twinkle 8s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { 
+                opacity: 0.15;
+                transform: scale(0.9); 
+            }
+            50% { 
+                opacity: 0.5;
+                transform: scale(1.1); 
+            }
+        }
+        
+        /* Trail effect */
+        .trail {
+            position: absolute;
+            width: 60px;
+            height: 1.2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.4) 30%,
+                rgba(135, 206, 235, 0.2) 70%,
+                transparent 100%);
+            z-index: 1;
+            transform-origin: left center;
+        }
+        
+        /* Subtle content animation */
+        @keyframes contentFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .comet-text {
+            animation: contentFloat 20s infinite ease-in-out;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .comet-background, .green-background {
+                height: 500px;
+            }
+            
+            .comet-text, .green-content {
+                padding: 30px;
+            }
+            
+            .comet-text h2, .green-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .comet-text p, .green-content p {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .comet-background, .green-background {
+                height: 450px;
+            }
+            
+            .comet-text, .green-content {
+                padding: 20px;
+            }
+        }
 /* ============ HERO ============ */
 .hero {
     background: #07162d;
@@ -31,7 +241,7 @@ section {
     display: flex;
     justify-content: space-between;
     padding: 60px 10%;
-    margin-top: 80px;
+    /*margin-top: 80px;*/
 }
 .hero_01 {
     background: #07162d;
@@ -98,8 +308,32 @@ section {
 
 
 
+
+
+/* ======== PARA SECTION ======== */
+.para-section {
+    height: 100vh;
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    background: linear-gradient(155deg, #000921 10%, #0a1f51 50%, #000202 70%);
+    /*linear-gradient(135deg, #0a2463 0%, #0a2463 60%, #87ceeb 100%);*/
+    /*radial-gradient(circle at right, rgba(0,255,200,0.25), rgba(0,0,0,0) 50%);*/
+    background-attachment: fixed;
+}
+
+.para-section p {
+    padding: 100px;
+    max-width: 500px;     /* controls the width */
+    margin: auto;         /* centers the paragraph */
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    color: #dff9ff;
+}
 /* ============ ABOUT ============ */
 .about-section {
+    /*background: linear-gradient(135deg, #0a0e2a 0%, #1a1f40 100%);*/
     background-color: #152f57;
     text-align: center;
     height: 100vh;
@@ -132,6 +366,7 @@ section {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
+    padding-bottom: 80px;
 }
 
 .offer-card {
@@ -161,17 +396,22 @@ section {
 
 /* ============ METRICS ============ */
 .metrics-section {
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 130px;
+    background: #152f57;
+    /*
     background: #152f57;
     height: 100vh;
     display: flex;
     justify-content: space-between;
-    padding: 60px 10%;
+    padding: 60px 10%;*/
 }
 .metrics-box {
+    flex: 1;
     padding: 40px;
-    border-radius: 14px;
-    max-width: 450px;
-    margin-left: 0;
+    padding-left: 100px;
 }
 
 .metric {
@@ -194,10 +434,16 @@ section {
 
 
 /* ============ PRODUCTS ============ */
+.products-section {
+    padding-top: 0px;
+    background: linear-gradient(135deg, #87ceeb 0%, #0a2463 60%, #0a2463 100%);
+    background-attachment: fixed;
+}
 .product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 25px;
+    padding-bottom: 80px;
 }
 
 .product-card {
@@ -257,7 +503,6 @@ footer {
     color: #6f8498;
     margin-top: 40px;
 }
-
 
 
 /* ============ RESPONSIVE ============ */
