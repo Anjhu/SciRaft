@@ -102,23 +102,100 @@
         <div>
         <h2 class="section-title">Key Metrics</h2>
         </div>
-        <div class="metrics-box">
-            <div class="metric">
-                <span class="metric-number">95%</span>
-                <span class="metric-label">Client Satisfaction</span>
+         <div class="metrics-box dashboard ">
+        <!-- Card 1: Feature Adoption Rate -->
+        <div class="startup-card card-1" onclick="updateMetric(0)">
+            <div class="startup-wave">
+                <div class="wave-path"></div>
+                <div class="wave-path"></div>
+                <div class="wave-path"></div>
             </div>
-
-            <div class="metric">
-                <span class="metric-number">20+</span>
-                <span class="metric-label">Active Projects</span>
+            
+            <div class="startup-content">
+                <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                </svg>
+                
+                <div class="value-section">
+                    <span class="metric-value" id="metric1">68%</span>
+                    <span class="metric-change positive" id="change1">+4.2%</span>
+                </div>
+                
+                <div class="info-section">
+                    <span class="metric-label">Feature<br>Adoption<br>Rate</span>
+                    <span class="metric-description" id="desc1">Users who adopted new features</span>
+                </div>
             </div>
-
-            <div class="metric">
-                <span class="metric-number">10 Years</span>
-                <span class="metric-label">Industry Experience</span>
+            
+            <div class="live-indicator">
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
             </div>
-
         </div>
+
+        <!-- Card 2: MoM Growth (Month-over-Month Growth) -->
+        <div class="startup-card card-2" onclick="updateMetric(1)">
+            <div class="startup-wave">
+                <div class="wave-path"></div>
+                <div class="wave-path"></div>
+                <div class="wave-path"></div>
+            </div>
+            
+            <div class="startup-content">
+                <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/>
+                </svg>
+                
+                <div class="value-section">
+                    <span class="metric-value" id="metric2">18.3%</span>
+                    <span class="metric-change positive" id="change2">+2.1%</span>
+                </div>
+                
+                <div class="info-section">
+                    <span class="metric-label">Month-over-Month<br>Growth</span>
+                    <span class="metric-description" id="desc2">User growth compared to previous month</span>
+                </div>
+            </div>
+            
+            <div class="live-indicator">
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+            </div>
+        </div>
+
+        <!-- Card 3: Customer Churn Rate -->
+        <div class="startup-card card-3" onclick="updateMetric(2)">
+            <div class="startup-wave">
+                <div class="wave-path"></div>
+                <div class="wave-path"></div>
+                <div class="wave-path"></div>
+            </div>
+            
+            <div class="startup-content">
+                <svg class="metric-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                </svg>
+                
+                <div class="value-section">
+                    <span class="metric-value" id="metric3">2.7%</span>
+                    <span class="metric-change negative" id="change3">+0.2%</span>
+                </div>
+                
+                <div class="info-section">
+                    <span class="metric-label">Monthly<br>Churn<br>Rate</span>
+                    <span class="metric-description" id="desc3">Percentage of users lost this month</span>
+                </div>
+            </div>
+            
+            <div class="live-indicator">
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+                <div class="indicator-dot"></div>
+            </div>
+        </div>
+    </div>
     </section>
 
     <section class="para-section">
