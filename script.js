@@ -299,3 +299,216 @@ document.querySelector(".get-started").addEventListener("click", e => {
                 }
             });
         });
+
+
+
+          // Startup Metrics Data (Feature Adoption focus)
+        const metrics = [
+            { // Feature Adoption Rate
+                val: 68, // percentage
+                min: 50,
+                max: 85,
+                unit: '%',
+                prefix: '',
+                valId: 'metric1',
+                changeId: 'change1',
+                descId: 'desc1',
+                label: 'Feature Adoption Rate',
+                type: 'percentage',
+                positiveChange: true, // Higher is better
+                emojiUp: '🚀',
+                emojiDown: '📊'
+            },
+            { // Growth Rate
+                val: 18.3, // percentage
+                min: 5,
+                max: 35,
+                unit: '%',
+                prefix: '',
+                valId: 'metric2',
+                changeId: 'change2',
+                descId: 'desc2',
+                label: 'Month-over-Month Growth',
+                type: 'percentage',
+                positiveChange: true,
+                emojiUp: '📈',
+                emojiDown: '📉'
+            },
+            { // Churn Rate
+                val: 2.7, // percentage
+                min: 1,
+                max: 6,
+                unit: '%',
+                prefix: '',
+                valId: 'metric3',
+                changeId: 'change3',
+                descId: 'desc3',
+                label: 'Monthly Churn Rate',
+                type: 'percentage',
+                positiveChange: false, // Lower is better
+                emojiUp: '✅',
+                emojiDown: '⚠️'
+            }
+        ];
+
+        // Create ripple effect
+        function createStartupRipple(event, card) {
+            const ripple = document.createElement('div');
+            ripple.className = 'startup-ripple';
+            
+            const rect = card.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            card.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+
+        // Update metric value
+        function updateMetric(index) {
+            const metric = metrics[index];
+            const card = document.querySelectorAll('.startup-card')[index];
+            
+            // Determine change direction based on metric type
+            let change;
+            if (index === 0) { // Feature Adoption - usually improves gradually
+                change = Math.random() > 0.4 ? 0.8 : -0.3;
+            } else if (index === 1) { // Growth - can be volatile
+                change = (Math.random() - 0.4) * 3;
+            } else { // Churn - usually stable with occasional spikes
+                change = Math.random() > 0.8 ? 0.4 : (Math.random() > 0.5 ? -0.1 : 0);
+            }
+            
+            // Apply change
+            let newVal = metric.val + change;
+            
+            // Ensure within bounds
+            newVal = Math.max(metric.min, Math.min(metric.max, newVal));
+            
+            if (Math.abs(newVal - metric.val) > 0.01) {
+                // Create ripple
+                const event = { 
+                    clientX: card.offsetWidth / 2, 
+                    clientY: card.offsetHeight / 2 
+                };
+                createStartupRipple(event, card);
+                
+                // Update value with animation
+                const valueEl = document.getElementById(metric.valId);
+                const oldVal = metric.val;
+                
+                valueEl.classList.add('metric-flash');
+                setTimeout(() => valueEl.classList.remove('metric-flash'), 500);
+                
+                // Format and display value
+                valueEl.textContent = `${newVal.toFixed(1)}${metric.unit}`;
+                metric.val = newVal;
+                
+                // Update change indicator
+                const changeEl = document.getElementById(metric.changeId);
+                const diff = newVal - oldVal;
+                const diffFormatted = Math.abs(diff).toFixed(1);
+                
+                if (metric.positiveChange) {
+                    if (diff > 0) {
+                        changeEl.textContent = `+${diffFormatted}${metric.unit}`;
+                        changeEl.className = 'metric-change positive';
+                    } else if (diff < 0) {
+                        changeEl.textContent = `-${diffFormatted}${metric.unit}`;
+                        changeEl.className = 'metric-change negative';
+                    }
+                } else {
+                    // For churn, lower is better
+                    if (diff < 0) {
+                        changeEl.textContent = `-${Math.abs(diff).toFixed(1)}${metric.unit}`;
+                        changeEl.className = 'metric-change positive';
+                    } else if (diff > 0) {
+                        changeEl.textContent = `+${diffFormatted}${metric.unit}`;
+                        changeEl.className = 'metric-change negative';
+                    }
+                }
+                
+                // Update wave animation speed based on metric performance
+                const waveBg = card.querySelector('.startup-wave');
+                const waves = waveBg.querySelectorAll('.wave-path');
+                
+                // Calculate performance percentage (0-100%)
+                let performance;
+                if (metric.positiveChange) {
+                    performance = ((newVal - metric.min) / (metric.max - metric.min)) * 100;
+                } else {
+                    // For churn, reverse the calculation (lower is better)
+                    performance = ((metric.max - newVal) / (metric.max - metric.min)) * 100;
+                }
+                
+                // Adjust wave speed based on performance
+                const speedFactor = 0.5 + (performance / 200);
+                
+                waves.forEach((wave, i) => {
+                    const baseSpeed = 7 + (i * 2);
+                    wave.style.animationDuration = `${baseSpeed / speedFactor}s`;
+                });
+                
+                // Update description with contextual text
+                const descEl = document.getElementById(metric.descId);
+                let newDescription = '';
+                
+                if (index === 0) { // Feature Adoption
+                    newDescription = `${newVal.toFixed(1)}% adoption rate ${diff > 0 ? metric.emojiUp : metric.emojiDown}`;
+                } else if (index === 1) { // Growth
+                    newDescription = `${newVal.toFixed(1)}% monthly growth ${diff > 0 ? metric.emojiUp : metric.emojiDown}`;
+                } else { // Churn
+                    newDescription = `${newVal.toFixed(1)}% user churn ${diff < 0 ? metric.emojiUp : metric.emojiDown}`;
+                }
+                
+                descEl.textContent = newDescription;
+                
+                // 30% chance to update another metric
+                if (Math.random() > 0.7) {
+                    setTimeout(() => {
+                        const otherIndex = (index + 1) % 3;
+                        updateMetric(otherIndex);
+                    }, 300);
+                }
+            }
+        }
+
+        // Initialize wave animations
+        document.querySelectorAll('.wave-path').forEach((wave, index) => {
+            const baseSpeed = 7 + (index * 2);
+            wave.style.animationDuration = `${baseSpeed}s`;
+        });
+
+        // Add click listeners
+        document.querySelectorAll('.startup-card').forEach((card, index) => {
+            card.addEventListener('click', function(event) {
+                updateMetric(index);
+            });
+        });
+
+        // Auto-update metrics every 5-8 seconds
+        setInterval(() => {
+            const randomIndex = Math.floor(Math.random() * 3);
+            updateMetric(randomIndex);
+        }, Math.random() * 3000 + 5000);
+
+        // Initial contextual descriptions
+        setTimeout(() => {
+            metrics.forEach((metric, index) => {
+                const descEl = document.getElementById(metric.descId);
+                
+                if (index === 0) {
+                    descEl.textContent = `${metric.val.toFixed(1)}% adoption rate ${metric.emojiUp}`;
+                } else if (index === 1) {
+                    descEl.textContent = `${metric.val.toFixed(1)}% monthly growth ${metric.emojiUp}`;
+                } else {
+                    descEl.textContent = `${metric.val.toFixed(1)}% user churn ${metric.val < 3 ? '✅' : '⚠️'}`;
+                }
+            });
+        }, 500);
