@@ -695,7 +695,7 @@ section {
 
 /* ============ PRODUCTS ============ */
 .products-section {
-    padding-top: 0px;
+    padding-top: 50px;
     background: linear-gradient(135deg, #87ceeb 0%, #0a2463 60%, #0a2463 100%);
     background-attachment: fixed;
 }
@@ -733,7 +733,7 @@ section {
            /* width: 95%;
             max-width: 1400px; */
             background-color: #051741;
-            padding: 20px;
+            padding: 80px;
         }
         
         .gallery {
